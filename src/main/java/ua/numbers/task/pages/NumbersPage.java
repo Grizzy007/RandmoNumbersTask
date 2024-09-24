@@ -1,7 +1,20 @@
 package ua.numbers.task.pages;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.JLabel;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+import java.awt.BorderLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Font;
+import java.awt.Color;
+import java.awt.Insets;
+import java.awt.Dimension;
 import java.util.Random;
 
 public class NumbersPage {
@@ -10,8 +23,12 @@ public class NumbersPage {
     private boolean isDescending = true;
     private int[] numbers;
     private final JButton sortButton;
-    private final JButton resetButton;
     private final Random rand = new Random();
+
+    private static final Font FONT = new Font("Arial", Font.PLAIN, 11);
+    private static final Dimension BUTTON = new Dimension(60, 25);
+    private static final Insets INSETS = new Insets(10, 10, 10, 10);
+    private static final Insets BUTTON_MARGIN = new Insets(2, 5, 2, 5);
 
     public NumbersPage(int count, JFrame frame) {
         nFrame = frame;
@@ -30,53 +47,48 @@ public class NumbersPage {
         displayNumbers(numbers);
 
         JPanel controlPanel = new JPanel(new BorderLayout());
-        JPanel buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new GridBagLayout());
+        JPanel buttonsPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = INSETS;
 
-        sortButton = new JButton("Sort");
-        sortButton.setFont(new Font("Arial", Font.PLAIN, 11));
-        sortButton.setMargin(new Insets(2, 5, 2, 5));
-        sortButton.setPreferredSize(new Dimension(60, 25));
-        sortButton.setBackground(Color.GREEN);
-        sortButton.setForeground(Color.WHITE);
-
-        resetButton = new JButton("Reset");
-        resetButton.setFont(new Font("Arial", Font.PLAIN, 11));
-        resetButton.setPreferredSize(new Dimension(60, 25));
-        resetButton.setMargin(new Insets(2, 5, 2, 5));
-        resetButton.setBackground(Color.GREEN);
-        resetButton.setForeground(Color.WHITE);
+        sortButton = createButton("Sort", Color.GREEN);
         buttonsPanel.add(sortButton, gbc);
+
+        JButton resetButton = createButton("Reset", Color.GREEN);
         gbc.gridy = 1;
         buttonsPanel.add(resetButton, gbc);
         controlPanel.add(buttonsPanel, BorderLayout.NORTH);
         sortButton.addActionListener(e -> sortNumbers());
-        resetButton.addActionListener(e -> new LaunchPage());
+        resetButton.addActionListener(e -> new LaunchPage(nFrame));
 
-        frame.add(scrollPane, BorderLayout.CENTER);
-        frame.add(controlPanel, BorderLayout.EAST);
-        frame.revalidate();
-        frame.repaint();
+        nFrame.add(scrollPane, BorderLayout.CENTER);
+        nFrame.add(controlPanel, BorderLayout.EAST);
+        nFrame.revalidate();
+        nFrame.repaint();
+    }
+
+    private JButton createButton(String text, Color bgColor) {
+        JButton button = new JButton(text);
+        button.setFont(FONT);
+        button.setPreferredSize(BUTTON);
+        button.setMargin(BUTTON_MARGIN);
+        button.setBackground(bgColor);
+        button.setForeground(Color.WHITE);
+        return button;
     }
 
     private void displayNumbers(int[] nums) {
         numbersPanel.removeAll();
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.insets = INSETS;
 
         int maxInRow = 10;
         for (int i = 0; i < nums.length; i++) {
             gbc.gridx = i / maxInRow;
             gbc.gridy = i % maxInRow;
 
-            JButton numberButton = new JButton(String.valueOf(nums[i]));
-            numberButton.setPreferredSize(new Dimension(60, 25));
-            numberButton.setFont(new Font("Arial", Font.BOLD, 11));
-            numberButton.setBackground(Color.BLUE);
-            numberButton.setForeground(Color.WHITE);
+            JButton numberButton = createButton(String.valueOf(nums[i]), Color.BLUE);
             int finalI = i;
             numberButton.addActionListener(e -> handleNumberClick(nums[finalI]));
             numbersPanel.add(numberButton, gbc);
