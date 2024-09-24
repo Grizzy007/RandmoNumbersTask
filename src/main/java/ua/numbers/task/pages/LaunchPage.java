@@ -10,7 +10,7 @@ public class LaunchPage {
     public LaunchPage() {
         frame = new JFrame("Random Numbers");
         frame.getContentPane().removeAll();
-        frame.setSize(800, 450);
+        frame.setSize(800, 520);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new GridBagLayout());
         frame.setVisible(true);

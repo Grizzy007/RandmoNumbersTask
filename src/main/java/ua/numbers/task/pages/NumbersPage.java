@@ -16,7 +16,7 @@ public class NumbersPage {
     public NumbersPage(int count, JFrame frame) {
         nFrame = frame;
         nFrame.getContentPane().removeAll();
-        nFrame.setSize(800, 450);
+        nFrame.setSize(800, 520);
         nFrame.setLayout(new BorderLayout());
 
         numbers = generateRandomNumbers(count);
@@ -36,15 +36,18 @@ public class NumbersPage {
         gbc.insets = new Insets(10, 10, 10, 10);
 
         sortButton = new JButton("Sort");
-        sortButton.setFont(new Font("Arial", Font.PLAIN, 9));
+        sortButton.setFont(new Font("Arial", Font.PLAIN, 11));
         sortButton.setMargin(new Insets(2, 5, 2, 5));
         sortButton.setPreferredSize(new Dimension(60, 25));
         sortButton.setBackground(Color.GREEN);
+        sortButton.setForeground(Color.WHITE);
 
         resetButton = new JButton("Reset");
-        resetButton.setFont(new Font("Arial", Font.PLAIN, 9));
+        resetButton.setFont(new Font("Arial", Font.PLAIN, 11));
         resetButton.setPreferredSize(new Dimension(60, 25));
+        resetButton.setMargin(new Insets(2, 5, 2, 5));
         resetButton.setBackground(Color.GREEN);
+        resetButton.setForeground(Color.WHITE);
         buttonsPanel.add(sortButton, gbc);
         gbc.gridy = 1;
         buttonsPanel.add(resetButton, gbc);
