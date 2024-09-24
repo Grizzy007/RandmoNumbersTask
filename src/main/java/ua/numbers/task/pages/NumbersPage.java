@@ -51,20 +51,10 @@ public class NumbersPage {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = INSETS;
 
-        sortButton = new JButton("Sort");
-        sortButton.setFont(FONT);
-        sortButton.setMargin(BUTTON_MARGIN);
-        sortButton.setPreferredSize(BUTTON);
-        sortButton.setBackground(Color.GREEN);
-        sortButton.setForeground(Color.WHITE);
+        sortButton = createButton("Sort", Color.GREEN);
         buttonsPanel.add(sortButton, gbc);
 
-        JButton resetButton = new JButton("Reset");
-        resetButton.setFont(FONT);
-        resetButton.setPreferredSize(BUTTON);
-        resetButton.setMargin(BUTTON_MARGIN);
-        resetButton.setBackground(Color.GREEN);
-        resetButton.setForeground(Color.WHITE);
+        JButton resetButton = createButton("Reset", Color.GREEN);
         gbc.gridy = 1;
         buttonsPanel.add(resetButton, gbc);
         controlPanel.add(buttonsPanel, BorderLayout.NORTH);
@@ -75,6 +65,16 @@ public class NumbersPage {
         nFrame.add(controlPanel, BorderLayout.EAST);
         nFrame.revalidate();
         nFrame.repaint();
+    }
+
+    private JButton createButton(String text, Color bgColor) {
+        JButton button = new JButton(text);
+        button.setFont(FONT);
+        button.setPreferredSize(BUTTON);
+        button.setMargin(BUTTON_MARGIN);
+        button.setBackground(bgColor);
+        button.setForeground(Color.WHITE);
+        return button;
     }
 
     private void displayNumbers(int[] nums) {
@@ -88,11 +88,7 @@ public class NumbersPage {
             gbc.gridx = i / maxInRow;
             gbc.gridy = i % maxInRow;
 
-            JButton numberButton = new JButton(String.valueOf(nums[i]));
-            numberButton.setPreferredSize(BUTTON);
-            numberButton.setFont(FONT);
-            numberButton.setBackground(Color.BLUE);
-            numberButton.setForeground(Color.WHITE);
+            JButton numberButton = createButton(String.valueOf(nums[i]), Color.BLUE);
             int finalI = i;
             numberButton.addActionListener(e -> handleNumberClick(nums[finalI]));
             numbersPanel.add(numberButton, gbc);
