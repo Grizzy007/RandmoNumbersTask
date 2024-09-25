@@ -17,6 +17,15 @@ import java.awt.Insets;
 import java.awt.Dimension;
 import java.util.Random;
 
+
+/**
+ * The NumbersPage class represents a page where random numbers are displayed
+ * in a grid of buttons, allowing users to sort, reset, or handle click events on the numbers.
+ * If the clicked number is 30 or below, a new set of random numbers is generated.
+ *
+ * @author Stas
+ * @version 1.0.0
+ */
 public class NumbersPage {
     private final JFrame nFrame;
     private final JPanel numbersPanel;
@@ -30,6 +39,13 @@ public class NumbersPage {
     private static final Insets INSETS = new Insets(10, 10, 10, 10);
     private static final Insets BUTTON_MARGIN = new Insets(2, 5, 2, 5);
 
+
+    /**
+     * Constructor of NumbersPage, creates a new NumbersPage with the specified number of random numbers buttons.
+     *
+     * @param count The number of random numbers to generate.
+     * @param frame The frame where the page will be displayed.
+     */
     public NumbersPage(int count, JFrame frame) {
         nFrame = frame;
         nFrame.getContentPane().removeAll();
@@ -58,6 +74,8 @@ public class NumbersPage {
         gbc.gridy = 1;
         buttonsPanel.add(resetButton, gbc);
         controlPanel.add(buttonsPanel, BorderLayout.NORTH);
+
+        //Action listeners for buttons, for SortButton - sorting, for ResetButton - returning user to LaunchPage
         sortButton.addActionListener(e -> sortNumbers());
         resetButton.addActionListener(e -> new LaunchPage(nFrame));
 
@@ -67,6 +85,13 @@ public class NumbersPage {
         nFrame.repaint();
     }
 
+    /**
+     * Creates a button with the specified text and background color.
+     *
+     * @param text The text to display on the button.
+     * @param bgColor The background color of the button.
+     * @return The created JButton instance.
+     */
     private JButton createButton(String text, Color bgColor) {
         JButton button = new JButton(text);
         button.setFont(FONT);
@@ -84,6 +109,8 @@ public class NumbersPage {
         gbc.insets = INSETS;
 
         int maxInRow = 10;
+
+        // Create buttons for each number and add them to the panel
         for (int i = 0; i < nums.length; i++) {
             gbc.gridx = i / maxInRow;
             gbc.gridy = i % maxInRow;
@@ -101,9 +128,18 @@ public class NumbersPage {
         numbersPanel.repaint();
     }
 
+    /**
+     * Generates an array of random numbers within the range of 0 to 1000.
+     * At least one number will be less than or equal to 30.
+     *
+     * @param count The number of random numbers to generate.
+     * @return The generated array of random numbers.
+     */
     private int[] generateRandomNumbers(int count) {
         int[] nums = new int[count];
         boolean less30Condition = false;
+
+        // Generate random numbers and ensure one is <= 30
         for (int i = 0; i < count; i++) {
             nums[i] = rand.nextInt(1001);
             if (nums[i] <= 30) {
@@ -117,6 +153,12 @@ public class NumbersPage {
         return nums;
     }
 
+    /**
+     * Handles the event when a number button is clicked.
+     * If the clicked number is 30 or below, new random numbers are generated.
+     *
+     * @param number The number that was clicked.
+     */
     private void handleNumberClick(int number) {
         if (number <= 30) {
             numbers = new int[number];
@@ -127,6 +169,10 @@ public class NumbersPage {
         }
     }
 
+    /**
+     * Sorts the numbers array using the quick sort algorithm.
+     * The sorting order alternates between ascending and descending each time the sort button is clicked.
+     */
     private void sortNumbers() {
         new Thread(() -> {
             quickSort(numbers, 0, numbers.length - 1);
@@ -135,6 +181,14 @@ public class NumbersPage {
         }).start();
     }
 
+    /**
+     * Recursively sorts the array using the quick sort algorithm.
+     * Visualizing each iteration with animation.
+     *
+     * @param array The array to sort.
+     * @param low The starting index of the sub-array to be sorted.
+     * @param high The ending index of the sub-array to be sorted.
+     */
     private void quickSort(int[] array, int low, int high) {
         if (low < high) {
             int pi = partition(array, low, high);
@@ -145,9 +199,19 @@ public class NumbersPage {
         }
     }
 
+    /**
+     * Partitions the array based on the pivot element.
+     *
+     * @param array The array to partition.
+     * @param low The starting index of the sub-array.
+     * @param high The ending index of the sub-array.
+     * @return The index of the pivot element after partitioning.
+     */
     private int partition(int[] array, int low, int high) {
         int pivot = array[high];
         int i = (low - 1);
+
+        // Swap elements based on sorting order (ascending/descending)
         for (int j = low; j < high; j++) {
             if (isDescending) {
                 if (array[j] >= pivot) {

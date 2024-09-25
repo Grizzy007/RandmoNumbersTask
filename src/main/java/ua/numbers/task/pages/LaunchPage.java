@@ -12,6 +12,14 @@ import java.awt.Insets;
 import java.awt.Dimension;
 import java.awt.Color;
 
+/**
+ * The LaunchPage class represents the initial page of the application,
+ * where the user can input the number of random numbers to display.
+ * Upon valid input, it launches the NumbersPage with the given number.
+ *
+ * @author Stas
+ * @version 1.0.0
+ */
 public class LaunchPage {
     private final JFrame frame;
     private final JTextField textField = new JTextField(10);
@@ -19,6 +27,11 @@ public class LaunchPage {
     private static final Insets INSETS = new Insets(10, 10, 10, 10);
     private static final Dimension SIZE = new Dimension(100, 25);
 
+    /**
+     * Constructor of LaunchPage, creates a new LaunchPage with the given frame.
+     *
+     * @param jFrame The main application frame where the page will be displayed.
+     */
     public LaunchPage(JFrame jFrame) {
         frame = jFrame;
         frame.getContentPane().removeAll();
@@ -44,6 +57,8 @@ public class LaunchPage {
         myButton.setBackground(Color.BLUE);
         myButton.setForeground(Color.WHITE);
         myButton.setPreferredSize(SIZE);
+
+        // Action listener for button to handle input validation and navigation to NumbersPage
         myButton.addActionListener(e -> {
             String input = textField.getText();
             try {
@@ -56,6 +71,8 @@ public class LaunchPage {
                 JOptionPane.showMessageDialog(frame, "Please enter a valid number (1-1000).");
             }
         });
+
+        // Refresh the frame
         frame.revalidate();
         frame.repaint();
     }
