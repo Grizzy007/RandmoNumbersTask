@@ -1,2 +1,2 @@
 # RandmoNumbersTask
-Random Numbers Task
+Gransoft Test Task
